@@ -11,7 +11,8 @@ export const main = handler(async (event, context) => {
       userId: event.requestContext.identity.cognitoIdentityId, // The id of the author // The id of the author
       noteId: uuid.v1(), // A unique uuid
       content: data.content, // Parsed from request body
-      spValue: data.spValue, // Test
+      board: data.board, // Test
+      devicename: data.devicename,
       //attachment: data.attachment, // Parsed from request body
       createdAt: Date.now(), // Current Unix timestamp
     },

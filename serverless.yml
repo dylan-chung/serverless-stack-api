@@ -19,6 +19,7 @@ provider:
   # under process.env.
   environment:
     tableName: notes
+    tableName2: ioTData
 
   # 'iamRoleStatements' defines the permission policy for the Lambda function.
   # In this case Lambda functions are granted with permissions to access DynamoDB.
@@ -32,7 +33,7 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
         - dynamodb:DescribeTable
-      Resource: "arn:aws:dynamodb:us-west-1:484903828881:table/notes"
+      Resource: "arn:aws:dynamodb:us-west-1:484903828881:table/*"
 
 functions:
   # Defines an HTTP API endpoint that calls the main function in create.js
@@ -90,7 +91,18 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
-# Create our resources with separate CloudFormation templates
+  # Create our resources with separate CloudFormation templates
+  get2:
+    # Defines an HTTP API endpoint that calls the main function in get.js
+    # - path: url path is /notes/{id}
+    # - method: GET request
+    handler: get2.main
+    events:
+      - http:
+          path: ioTData/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
 resources:
   # API Gateway Errors
   - ${file(resources/api-gateway-errors.yml)}
